@@ -1,5 +1,4 @@
 import * as API from 'services/pixabay-api';
-// import { fetchGallery } from 'services/pixabay-api';
 import { Button } from 'components/Button/Button';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { SearchBar } from 'components/SearchBar/SearchBar';
