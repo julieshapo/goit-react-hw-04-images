@@ -16,5 +16,3 @@ export const fetchGallery = async (name, page) => {
   const response = await axios(API_URL, { params });
   return response.data.hits;
 };
-
-fetchGallery();

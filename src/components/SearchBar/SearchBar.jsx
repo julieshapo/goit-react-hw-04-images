@@ -5,6 +5,7 @@ import { ReactComponent as SearchIcon } from '../icons/search.svg';
 export const SearchBar = ({ onSubmit }) => {
   const handleSubmit = async (values, actions) => {
     await onSubmit(values);
+    console.log(values);
     actions.setSubmitting(false);
     actions.resetForm();
   };

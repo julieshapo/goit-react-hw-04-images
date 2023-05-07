@@ -1,4 +1,4 @@
-import * as API from 'services/pixabay-api';
+import { fetchGallery } from 'services/pixabay-api';
 import { Button } from 'components/Button/Button';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { SearchBar } from 'components/SearchBar/SearchBar';
@@ -16,10 +16,13 @@ export const App = () => {
 
   const searchImages = ({ name }) => {
     if (name.trim()) {
-      setGallery([]);
+      // console.log(name);
       setSearch(name);
+      // console.log(setSearch(name));
+      setGallery([]);
       setPage(1);
       setIsLoading(false);
+      setError(false);
     }
   };
 
@@ -28,17 +31,13 @@ export const App = () => {
   };
 
   useEffect(() => {
-    if (!search) {
-      return;
-    }
+    if (!search) return;
 
     const fetchImages = async (name, page) => {
       try {
         setIsLoading(true);
-        const images = await API.fetchGallery(name, page);
-        setGallery(prevState =>
-          page === 1 ? images : [...prevState, ...images]
-        );
+        const images = await fetchGallery(name, page);
+        setGallery(prevState => [...prevState, ...images]);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -46,8 +45,8 @@ export const App = () => {
       }
     };
 
-    fetchImages();
-  }, [search, page]);
+    fetchImages(search, page);
+  }, [page, search]);
 
   return (
     <Container>
@@ -56,6 +55,7 @@ export const App = () => {
       </Header>
       {error && <p>'Oops, something went wrong! Please, try again'</p>}
       {isLoading ? <Loader /> : <ImageGallery items={gallery} />}
+      {}
       {Math.ceil(gallery?.length / 12) >= page && !isLoading && (
         <Button onClick={loadMore} />
       )}
